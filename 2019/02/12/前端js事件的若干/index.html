@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好记性不如烂笔头">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        前端js事件的若干 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 烂笔头 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/imgs/avatar.png">
+        </div>
+        <div class="name">
+            <i>毛晨辉</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mouseover和mouseenter两个事件有什么区别？"><span class="toc-text">mouseover和mouseenter两个事件有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#移动端的click事件行为与PC端有什么不同。"><span class="toc-text">移动端的click事件行为与PC端有什么不同。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#由以上click事件的300ms延迟的存在-引发的“点击穿透”。"><span class="toc-text">由以上click事件的300ms延迟的存在,引发的“点击穿透”。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FastClick-js插件的如何引入的几个方式："><span class="toc-text">FastClick.js插件的如何引入的几个方式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充1，Event对象中，target和currentTarget的区别？"><span class="toc-text">补充1，Event对象中，target和currentTarget的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充2，事件委托"><span class="toc-text">补充2，事件委托</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 烂笔头 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        前端js事件的若干
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-02-12 07:39:49</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>多年之后，在我看到关于js事件代码的面前，准会想起刚做移动端项目那个午后，当时用了一个mui的框架，里面针对移动端封装了tap事件，当时有个移动页面，是实现点击展示更多的下拉（类似手风琴组件）。我是通过点击（tap)向下箭头图标来触发事件函数，控制dom类名的变化进而控制dom的高度的变化来实现的，之后就是收缩起来了，容器伸长的同时把向下箭头换成向上箭头，点击在切换类名达到收回效果。代码三下五除二撸上，点击一下，容器元素伸长了，显示出了里面的各种链接，嗯，一切都很顺利。但当我点击向上箭头时，页面一闪却发生了跳转。什么鬼！最后才发现原来，dom展开后覆盖了下边的列表，列表中每一项都是一个链接（a标签）。这让我开始思考起来tap和click的不同，以及为什么a标签的点击不是统一的tap而是click。再弄明白touch和click不同之后，就全局统一了touch和click的不同。“var tap = “tap”||”click”;或许方法不是最好的，但毕竟问题得到了解决。</p>
+</blockquote>
+<p>正经的，总结（补充）一下各种前端事件的若干知识。</p>
+<ul>
+<li><h2 id="mouseover和mouseenter两个事件有什么区别？"><a href="#mouseover和mouseenter两个事件有什么区别？" class="headerlink" title="mouseover和mouseenter两个事件有什么区别？"></a>mouseover和mouseenter两个事件有什么区别？</h2><p>二者的区别是mouseenter不会冒泡（bubble）。<br>当二者绑定的元素都没有子元素时，二者的行为是一致的。但是二者内部都包含子元素时，行为就不一样了。<br>在mouseover绑定的元素中，鼠标每次进入一个子元素就会触发一次mouseover事件，而mouseenter只会触发一次。</p>
+</li>
+<li><h2 id="移动端的click事件行为与PC端有什么不同。"><a href="#移动端的click事件行为与PC端有什么不同。" class="headerlink" title="移动端的click事件行为与PC端有什么不同。"></a>移动端的click事件行为与PC端有什么不同。</h2><p>移动端的click事件会延迟300ms触发事件回调（只在部分手机浏览器上出现）。<br>因为手机浏览器中需要处理如翻页这样复杂的手势。在用户做翻页或双击放大等操作时，是先将手指触碰到屏幕（此时理应已经触发了click事件），然后再上下移动手指，浏览器开发厂商为了识别这种事件，所以加入了300ms延迟的处理。<br>可以引入Fastclick.js来解决这个问题。它的原理是 FastClick 在检测到touchend事件的时候，会通过 DOM 自定义事件立即触发一个模拟click事件，并把浏览器在 300 毫秒之后真正触发的click事件阻止掉。</p>
+</li>
+</ul>
+<ul>
+<li><h2 id="由以上click事件的300ms延迟的存在-引发的“点击穿透”。"><a href="#由以上click事件的300ms延迟的存在-引发的“点击穿透”。" class="headerlink" title="由以上click事件的300ms延迟的存在,引发的“点击穿透”。"></a>由以上click事件的300ms延迟的存在,引发的“点击穿透”。</h2><blockquote>
+<p><strong>点击穿透</strong> 是指在移动端，由于click事件延迟300ms触发，那么如果300ms内，页面显示变化（主要是指DOM的隐藏和显示）的话，会出现实际点击元素触发了touch事件，而300ms后该位置的实际元素又被再次触发了click事件的情况。</p>
+</blockquote>
+</li>
+</ul>
+<p>常见点击穿透现象有3种：</p>
+<blockquote>
+<ul>
+<li>点击穿透问题：点击蒙层（mask）上的关闭按钮，蒙层消失后发现触发了按钮下面元素的click事件。<br>蒙层的关闭按钮绑定的是touch事件，而按钮下面元素绑定的是click事件，touch事件触发之后，蒙层消失了，300ms后这个点的click事件fire，event的target自然就是按钮下面的元素，因为按钮跟蒙层一起消失了。</li>
+<li>跨页面点击穿透问题：如果按钮下面恰好是一个有href属性的a标签，那么页面就会发生跳转。<br>因为 a标签跳转默认是click事件触发 ，所以原理和上面的完全相同。</li>
+<li>另一种跨页面点击穿透问题：这次没有mask了，直接点击页内按钮跳转至新页，然后发现新页面中对应位置元素的click事件被触发了。  </li>
+</ul>
+</blockquote>
+<p>避免方法在上面的问题中已经说过，可以引入fastclick之类的插件来解决。  </p>
+<h3 id="FastClick-js插件的如何引入的几个方式："><a href="#FastClick-js插件的如何引入的几个方式：" class="headerlink" title="FastClick.js插件的如何引入的几个方式："></a>FastClick.js插件的如何引入的几个方式：</h3><ol>
+<li>在HTML页面中添加：<pre><code><script type="application/javascript" src="/path/to/fastclick.js"></script>
+</code></pre>  
+
+</li>
+</ol>
+<p>注意：必须在页面所有Element之前加载脚本文件先实例化fastclick  </p>
+<ol start="2">
+<li>之后再在JS中添加fastclick的实例<pre><code>if ('addEventListener' in document) {
+ document.addEventListener('DOMContentLoaded', function() {
+     FastClick.attach(document.body);
+ }, false);
+}
+</code></pre>
+如果你使用了JQuery：  
+<pre><code>$(function() {
+ FastClick.attach(document.body);
+});
+</code></pre>
+如果你使用Browserify或者其他CommonJS-style 系统,当你调用`require('fastclick')`时，`FastClick.attach`事件会被返回
+<pre><code>var attachFastClick = require('fastclick');
+attachFastClick(document.body);
+</code></pre>
+
+</li>
+</ol>
+<h2 id="补充1，Event对象中，target和currentTarget的区别？"><a href="#补充1，Event对象中，target和currentTarget的区别？" class="headerlink" title="补充1，Event对象中，target和currentTarget的区别？"></a>补充1，Event对象中，target和currentTarget的区别？</h2><p> currentTarget是当事件遍历DOM时，标识事件的当前目标。它总是引用事件处理程序附加到的元素，而不是event.target，event.target标识事件发生的元素。<br> 有个简单的验证方法，你会在下面的例子中看到e.currentTarget一直返回的是body元素，而e.target则随着你点击位置的不同而变化</p>
+<pre><code><body>
+    <ul id="test">
+        <li>
+            <ul class="enter-sensitive">
+                <li>item 1-1</li>
+                <li>item 1-2</li>
+            </ul>
+        </li>
+        <li>
+            <ul class="enter-sensitive">
+                <li>item 2-1</li>
+                <li>item 2-2</li>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        document.body.addEventListener('click', function (e) {
+            console.log(e.target, e.currentTarget)
+        })
+    </script>
+</body>
+</code></pre> 
+
+<h2 id="补充2，事件委托"><a href="#补充2，事件委托" class="headerlink" title="补充2，事件委托"></a>补充2，事件委托</h2><blockquote>
+<p>事件委托是指利用“事件冒泡”，只通过指定一个事件处理程序，来管理某一类型的所有事件。也就是说，当此事件处理程序被触发时，通过当前事件对象中的target来确认究竟是在哪个元素触发的事件，从而达到一次注册 处理多个元素触发事件的目的。  </p>
+</blockquote>
+<p> 其实事件委托主要解决大量事件绑定造成的内存开销问题。<br> 比如很多列表，要为每个列表项都绑定事件，不如click，不仅增加自己工作量而且会占用过多内存，使用事件委托，只需在DOM 树中尽量最高的层次上(比如ul&gt;添加一个事件处理程序,然后再动过target来获取触发元素。推荐为document对象添加一个事件处理程序,与采取传统的做法相比具有如下优点:  </p>
+<ul>
+<li>document 对象很快就可以访问，而且可以在页面生命周期的任何时点上为它添加事件处理程序（无需等待DOMContentLoaded 或load 事件）。换句话说，只要可单击的元素呈现在页面上，就可以立即具备适当的功能。</li>
+<li><p>在页面中设置事件处理程序所需的时间更少。只添加一个事件处理程序所需的DOM 引用更少，所花的时间也更少。</p>
+<ul>
+<li>整个页面占用的内存空间更少，能够提升整体性能。  </li>
+</ul>
+<p>就像这样：</p>
+<pre><code>$(document).on('change', '#skintoolsSidebar', function () {
+self.sidebarEvents($(this));
+});
+$(document).on('click', '#skintoolsNavbar input', function () { 
+self.navbarEvents($(this));
+});
+$(document).on('click', '#skintoolsPrimary input', function () { 
+self.primaryEvents($(this));
+});
+</code></pre>
+</li>
+</ul>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
