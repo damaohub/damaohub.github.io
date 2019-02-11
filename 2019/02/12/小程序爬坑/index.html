@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好记性不如烂笔头">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        小程序爬坑 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 烂笔头 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/imgs/avatar.png">
+        </div>
+        <div class="name">
+            <i>毛晨辉</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期"><span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小程序的生命周期："><span class="toc-text">小程序的生命周期：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题分析"><span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题解决"><span class="toc-text">问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 烂笔头 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        小程序爬坑
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-02-12 07:49:13</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <p>小程序和vue的模式很接近，声明式开发，这也是很多小程序框架基于vue设计的一个原因吧。说一下我在有过vue的开发经验后转入小程序时遇到的一些坑。  </p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>vue的生命周期：beforeCreate -&gt; created -&gt; beforeMount -&gt; mounted -&gt; beforeUpdate -&gt; updated -&gt; beforeDestroy -&gt; destroyed。官方文档上有形象的说明图。</p>
+<h2 id="小程序的生命周期："><a href="#小程序的生命周期：" class="headerlink" title="小程序的生命周期："></a>小程序的生命周期：</h2><blockquote>
+<p>小程序的UI视图和逻辑处理是用多个webview实现的，逻辑处理的JS代码全部加载到一个Webview里面，称之为AppService，整个小程序只有一个，并且整个生命周期常驻内存，而所有的视图（wxml和wxss）都是单独的Webview来承载，称之为AppView。所以一个小程序打开至少就会有2个webview进程，正式因为每个视图都是一个独立的webview进程，考虑到性能消耗，小程序不允许打开超过5个层级的页面，当然同是也是为了体验更好。    </p>
+</blockquote>
+<p>官方文档的示意图：<br> <img src="https://developers.weixin.qq.com/miniprogram/dev/image/mina-lifecycle.png">  </p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>新用户登录后总是获取不到登录状态，查看网络请求，相应的登录接口已经触发，也响应到正确数据（获取到了token），但是后面的接口携带的请求数据token是undfined。</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>因为在切换一个全局变量（比如token，baseURL等），需要在小程序初始化的时候，在wx.login()之后，再去请求服务端的接口才可以获取相应的token，之后才能进行相应的操作，比如设置相对应的缓存，跳转不同的页面。如果没有异步操作，那么按照小程序的生命周期可以顺序执行之后的页面初始化等。<br>但是， wx.login()是回调函数后才可以拿到code，之后请求服务端登录接口也是回调函数中获取到token，必须保证这之后才执行后面的页面初始化，否则获取不到相对应的数据。注意回调都是异步，每次页面初始化之后才执行回调函数，也就是说每次页面初始化进入小程序的生命周期内后才去执行的登录操作，虽然获取数据但是已经“迟到”了。这样小程序生命周期内获取不了登录状态，导致报错。</p>
+<p>之前封装了一个request方法，根据从缓存里获取的token更改baseurl，之后就是对wx.request()的再次封装，返回一个promise，方便调用。当然这个方法需要token和baseurl。</p>
+<p>按照之前web的方式，自然的把这个文件（requset.js）放入utils文件夹里，之后通过类似 “const { fetch } = require(‘../../utils/request.js’)”  来引入需要的js文件里。</p>
+<p>问题是当小程序开始重载后，先加载脚本，这个时候这个request.js就先于小程序的生命周期执行了，所以里面的token和baseurl自然不正确。所以，这个封装函数里的token和baseurl必须在小程序生命周期开始并缓存设置之后再获取数据，因为那个时候的数据才是正确的，才是此次登录的数据。</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>在app.js里，小程序初始化的时候，封装login方法，封装request方法，设置全局变量token，和 baseurl 。<br>login方法在执行完wx.login()异步获取token并设置缓存后返回一个promise。</p>
+<p>在第一个页面（即app.json 的pages里的第一个页面）获取全局app对象（getApp())，在页面初始化的时候执行app的login方法，之后再进行下面的操作。后面的每个页面，都需要通过getApp() 获取全局app对象之后才能获取下面的封装的网络请求方法，这时的token和baseurl 等全局变量都是正确的。至此，问题得到解决。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这是个由于回调函数和小程序生命周期引起的问题。小程序（原生的）没有类似vuex，redux的全局数据状态管理工具，所以一般在app.js里才能融合它的生命周期。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好记性不如烂笔头">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        vue中echart问题 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 烂笔头 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/imgs/avatar.png">
+        </div>
+        <div class="name">
+            <i>毛晨辉</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述："><span class="toc-text">问题描述：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决"><span class="toc-text">解决</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 烂笔头 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        vue中echart问题
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-02-12 07:48:20</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <p>当时在vue中运用echat做个中国地图，用来可视化每个省份的数据。于是和自然把中国地图封装成组件，当时的组件是这样的：</p>
+<pre><code>
+<template>
+  <div :class="className" :style="{height:height,width:width}">
+</div></template>
+
+<script>
+import echarts from 'echarts'
+require('echarts/map/js/china.js')
+import { debounce } from '@/utils'
+export default {
+  props: {
+    className: {
+      type: String,
+      default: 'chart'
+    },
+    width: {
+      type: String,
+      default: '100%'
+    },
+    height: {
+      type: String,
+      default: '350px'
+    },
+    autoResize: {
+      type: Boolean,
+      default: true
+    },
+    chartData: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      chart: null,
+      geoCoordMap: {}，
+      max: 100,
+      min：0
+    }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    },
+    max: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    }
+  },
+  mounted() {
+    this.initChart()
+    if (this.autoResize) {
+      this.__resizeHandler = debounce(() => {
+        if (this.chart) {
+          this.chart.resize()
+        }
+      }, 100)
+      window.addEventListener('resize', this.__resizeHandler)
+    }
+    // 监听侧边栏的变化
+    const sidebarElm = document.getElementsByClassName('sidebar-container')[0]
+    sidebarElm.addEventListener('transitionend', this.sidebarResizeHandler)
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    if (this.autoResize) {
+      window.removeEventListener('resize', this.__resizeHandler)
+    }
+    const sidebarElm = document.getElementsByClassName('sidebar-container')[0]
+    sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler)
+    this.chart.dispose()
+    this.chart = null
+  },
+  methods: {
+    sidebarResizeHandler(e) {
+      if (e.propertyName === 'width') {
+        this.__resizeHandler()
+      }
+    },
+    convertData(data = []) {
+      const res = []
+      for (let i = 0; i < data.length; i++) {
+        const geoCoord = this.geoCoordMap[data[i].name]
+        if (geoCoord) {
+          res.push({
+            name: data[i].name,
+            value: geoCoord.concat(data[i].value)
+          })
+        }
+      }
+      return res
+    },
+    setOptions(chartData = {}) {
+      this.chart.clear()
+      this.chart.setOption({
+        title: {
+          text: '各省份实时可用号数',
+          x: 'center',
+          textStyle: {
+            color: '#374B71',
+            fontFamily: '等线',
+            fontSize: 18
+          },
+          subtextStyle: {
+            fontSize: 15,
+            fontFamily: '等线'
+          }
+        },
+        visualMap: {
+          show: true,
+          min: this.min,
+          max: this.max,
+          left: 'left',
+          top: 'bottom',
+          text: ['多', '少'], // 文本，默认为数值文本
+          calculable: true,
+          seriesIndex: [1],
+          inRange: {
+            color: ['#CECCD3', '#555460']
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function(params) {
+            let val
+            if (typeof params.value === 'object') {
+              val = params.value[2]
+              // eslint-disable-next-line
+            } else if (params.name === '') {
+              val = '0'
+            } else {
+              val = params.value
+            }
+            return `${params.name}：${val}`
+          }
+        },
+        geo: {
+          show: true,
+          map: 'china',
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          roam: true,
+          itemStyle: {
+            normal: {
+              areaColor: '#FFFFFF',
+              borderColor: '#3B5077'
+            },
+            emphasis: {
+              areaColor: '#78CC23'
+            }
+          }
+        },
+        series: [
+          {
+            name: '散点',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: this.convertData(chartData.dataArr),
+            symbolSize: function(val) {
+              return val[2] / 10
+            },
+            label: {
+              normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#474545'
+              }
+            }
+          },
+          {
+            type: 'map',
+            map: 'china',
+            geoIndex: 0,
+            aspectScale: 0.75, // 长宽比
+            showLegendSymbol: false, // 存在legend时显示
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: '#FFFFFF'
+                }
+              }
+            },
+            roam: true,
+            itemStyle: {
+              normal: {
+                areaColor: '#031525',
+                borderColor: '#3B5077'
+              },
+              emphasis: {
+                areaColor: '#2B91B7'
+              }
+            },
+            animation: false,
+            data: chartData.dataArr
+          },
+          {
+            name: '点',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbol: 'pin', // 气泡
+            symbolSize: (val) => {
+              const _max = 50
+              const _min = 20
+              const a = (_max - _min) / (this.max - this.min)
+              let b = _min - a * this.min
+              b = _max - a * this.max
+              return a * val[2] + b
+            },
+            label: {
+              normal: {
+                formatter: (obj) => {
+                  return obj.data.value[2]
+                },
+                show: true,
+                textStyle: {
+                  color: '#FFFFFF',
+                  fontSize: 9
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#F62157' // 标志颜色
+              }
+            },
+            zlevel: 6,
+            data: this.convertData(chartData.dataArr)
+          }
+        ]
+      })
+    },
+    initChart() {
+      const mapFeatures = echarts.getMap('china').geoJson.features
+      mapFeatures.forEach((v) => {
+        // 地区名称
+        const name = v.properties.name
+        // 地区经纬度
+        this.geoCoordMap[name] = v.properties.cp
+      })
+      this.chart = echarts.init(this.$el)
+      this.chart.showLoading()
+      this.setOptions(this.chartData)
+      this.chart.hideLoading()
+    }
+  }
+}
+
+</script>
+</code></pre>
+
+<p>注意data里面的max和min,写在了该组件的data里成了该组件的局部数据。</p>
+<h2 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h2><p>vue-router进行路由切换，切换回来发现报错，颜色加载不上，地图变成黑白色无数据，echarts内部报语法错误，颜色解析不了，不停的报错。<br>怀疑是vue-router 切换路由导致的生命周期或者组件加载中出了问题。 webpack热加载之后或者刷新后可以正常，切换路由回来出问题。</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>最后发现把所有this.max和this.min写成固定的数字后，每次都可以正常渲染图表。之后把max和min的数据写在父组件，并由作为props的chartData携带进来，问题得到解决。</p>
+<p>最终代码：</p>
+<pre><code>
+    <template>
+  <div :class="className" :style="{height:height,width:width}">
+</div></template>
+
+<script>
+import echarts from 'echarts'
+require('echarts/map/js/china.js')
+import { debounce } from '@/utils'
+export default {
+  props: {
+    className: {
+      type: String,
+      default: 'chart'
+    },
+    width: {
+      type: String,
+      default: '100%'
+    },
+    height: {
+      type: String,
+      default: '350px'
+    },
+    autoResize: {
+      type: Boolean,
+      default: true
+    },
+    chartData: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      chart: null,
+      geoCoordMap: {}
+    }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    },
+    max: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    }
+  },
+  mounted() {
+    this.initChart()
+    if (this.autoResize) {
+      this.__resizeHandler = debounce(() => {
+        if (this.chart) {
+          this.chart.resize()
+        }
+      }, 100)
+      window.addEventListener('resize', this.__resizeHandler)
+    }
+    // 监听侧边栏的变化
+    const sidebarElm = document.getElementsByClassName('sidebar-container')[0]
+    sidebarElm.addEventListener('transitionend', this.sidebarResizeHandler)
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    if (this.autoResize) {
+      window.removeEventListener('resize', this.__resizeHandler)
+    }
+    const sidebarElm = document.getElementsByClassName('sidebar-container')[0]
+    sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler)
+    this.chart.dispose()
+    this.chart = null
+  },
+  methods: {
+    sidebarResizeHandler(e) {
+      if (e.propertyName === 'width') {
+        this.__resizeHandler()
+      }
+    },
+    convertData(data = []) {
+      const res = []
+      for (let i = 0; i < data.length; i++) {
+        const geoCoord = this.geoCoordMap[data[i].name]
+        if (geoCoord) {
+          res.push({
+            name: data[i].name,
+            value: geoCoord.concat(data[i].value)
+          })
+        }
+      }
+      return res
+    },
+    setOptions(chartData = {}) {
+      this.chart.clear()
+      this.chart.setOption({
+        title: {
+          text: '各省份实时可用号数',
+          x: 'center',
+          textStyle: {
+            color: '#374B71',
+            fontFamily: '等线',
+            fontSize: 18
+          },
+          subtextStyle: {
+            fontSize: 15,
+            fontFamily: '等线'
+          }
+        },
+        visualMap: {
+          show: true,
+          min: chartData.min,
+          max: chartData.max,
+          left: 'left',
+          top: 'bottom',
+          text: ['多', '少'], // 文本，默认为数值文本
+          calculable: true,
+          seriesIndex: [1],
+          inRange: {
+            color: ['#CECCD3', '#555460']
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function(params) {
+            let val
+            if (typeof params.value === 'object') {
+              val = params.value[2]
+              // eslint-disable-next-line
+            } else if (params.name === '') {
+              val = '0'
+            } else {
+              val = params.value
+            }
+            return `${params.name}：${val}`
+          }
+        },
+        geo: {
+          show: true,
+          map: 'china',
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          roam: true,
+          itemStyle: {
+            normal: {
+              areaColor: '#FFFFFF',
+              borderColor: '#3B5077'
+            },
+            emphasis: {
+              areaColor: '#78CC23'
+            }
+          }
+        },
+        series: [
+          {
+            name: '散点',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: this.convertData(chartData.dataArr),
+            symbolSize: function(val) {
+              return val[2] / 10
+            },
+            label: {
+              normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#474545'
+              }
+            }
+          },
+          {
+            type: 'map',
+            map: 'china',
+            geoIndex: 0,
+            aspectScale: 0.75, // 长宽比
+            showLegendSymbol: false, // 存在legend时显示
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: '#FFFFFF'
+                }
+              }
+            },
+            roam: true,
+            itemStyle: {
+              normal: {
+                areaColor: '#031525',
+                borderColor: '#3B5077'
+              },
+              emphasis: {
+                areaColor: '#2B91B7'
+              }
+            },
+            animation: false,
+            data: chartData.dataArr
+          },
+          {
+            name: '点',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbol: 'pin', // 气泡
+            symbolSize: (val) => {
+              const _max = 50
+              const _min = 20
+              const a = (_max - _min) / (chartData.max - chartData.min)
+              let b = _min - a * chartData.min
+              b = _max - a * chartData.max
+              return a * val[2] + b
+            },
+            label: {
+              normal: {
+                formatter: (obj) => {
+                  return obj.data.value[2]
+                },
+                show: true,
+                textStyle: {
+                  color: '#FFFFFF',
+                  fontSize: 9
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#F62157' // 标志颜色
+              }
+            },
+            zlevel: 6,
+            data: this.convertData(chartData.dataArr)
+          }
+        ]
+      })
+    },
+    initChart() {
+      const mapFeatures = echarts.getMap('china').geoJson.features
+      mapFeatures.forEach((v) => {
+        // 地区名称
+        const name = v.properties.name
+        // 地区经纬度
+        this.geoCoordMap[name] = v.properties.cp
+      })
+      this.chart = echarts.init(this.$el)
+      this.chart.showLoading()
+      this.setOptions(this.chartData)
+      this.chart.hideLoading()
+    }
+  }
+}
+</script>
+
+</code></pre>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

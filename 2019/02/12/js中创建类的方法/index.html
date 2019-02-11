@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好记性不如烂笔头">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        js中创建类的方法 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 烂笔头 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/imgs/avatar.png">
+        </div>
+        <div class="name">
+            <i>毛晨辉</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#js中创建类的方法"><span class="toc-text">js中创建类的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-工厂方式："><span class="toc-text">1.工厂方式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造函数："><span class="toc-text">2.构造函数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-原型方法："><span class="toc-text">3.原型方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-原型-构造联合方式"><span class="toc-text">4.原型/构造联合方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-动态原型方式"><span class="toc-text">5.动态原型方式</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 烂笔头 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        js中创建类的方法
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-02-12 07:47:06</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h1 id="js中创建类的方法"><a href="#js中创建类的方法" class="headerlink" title="js中创建类的方法"></a>js中创建类的方法</h1><p>js也是面向对象编程的语言，但是在es6之前并没有Class。只知道js的对象或者类都是函数，函数是一等公民嘛。</p>
+<p>首先，必须搞清楚一个一直困扰的问题，类和对象到底有什么区别，概念上说的很清楚，类就是对象的一个模板。典型的面向对象编程语言（比如C++和Java），存在“类”（class）这样一个概念。所谓“类”就是对象的模板，对象就是“类”的实例。JavaScript语言没有“类”，而改用构造函数（constructor）作为对象的模板。</p>
+<p>此时觉得js类和对象真是“暧昧”。</p>
+<p>js中创建对象直接new Object(),再添加属性方法。显然，这个Object可以是个“元类”。</p>
+<p>下面总结js中创建类（对象）的方法：</p>
+<h2 id="1-工厂方式："><a href="#1-工厂方式：" class="headerlink" title="1.工厂方式："></a>1.工厂方式：</h2><pre><code>//通过工厂方式创建对象，先定义一个工厂方法
+function createObj(){
+    var obj  =  new Object();
+    obj.name="xxx";
+    obj.say=function(){
+        alert("我是xxx");
+    }
+    return obj;
+}
+//调用工厂方法创建对象:
+var obj1  =  createObj();
+
+
+//也可以用这种形式
+function createObj(){
+    var obj  =  {};  //这样生成对象
+    obj.name="xxx";
+    obj.say=function(){
+        alert("我是xxx");
+    }
+    return obj;
+}
+var obj1  =  createObj();
+</code></pre>
+
+<p>这种方式的问题是每一次通过工厂方法去创建一个对象，这个对象的属性name和方法say都必须重新创建一次，浪费内存。而且没有解决对象识别问题（即怎样知道一个对象的类型）。</p>
+<h2 id="2-构造函数："><a href="#2-构造函数：" class="headerlink" title="2.构造函数："></a>2.构造函数：</h2><pre><code>//创建一个构造器，构造函数首字母大写
+function Obj(){
+    this.name="xxx";
+    this.say=function(){
+        alert("我是" + this.name);
+    };
+}
+//利用构造器，通过new关键字生成对象
+var obj1=new Obj();
+var obj2=new Obj();
+</code></pre>
+
+<p>这个 是js类的基本方式，构造函数名字以大写首字母开头，这是借鉴其他OO语言，主要是为了区别ECMAScript中其他的函数。</p>
+<p>这个解决了对象识别问题：</p>
+<pre><code>
+    alert(obj1.constructor ==  Obj)  // true
+    alert(obj2.constructor ==  Obj)  // true
+</code></pre>
+
+<pre><code>
+    alert(obj1 instanceof ==  Object)  // true
+    alert(obj1.constructor ==  Obj)  // true
+    alert(obj2 instanceof ==  Object)  // true
+    alert(obj2.constructor ==  Obj)  // true
+</code></pre>
+
+<p>但是，和工厂模式一样，每个方法都要再实例上重新创建一遍。</p>
+<h2 id="3-原型方法："><a href="#3-原型方法：" class="headerlink" title="3.原型方法："></a>3.原型方法：</h2><pre><code>//用空函数创建一个类
+function Obj(){
+}
+//在类的原型链上添加属性和方法
+Obj.prototype.name="xxx";
+Obj.prototype.say=function(){
+    alert("我是" + this.name);
+}
+//生成对象
+var obj1=new Obj();
+</code></pre>
+
+<p>这个方式的解决了每个实例重新创建方法的问题。缺点是，当有引用属性时，改变一个对象的这个属性也会改变其他对象的这个属性。因为一个引用属性，都是指向的同一个地方,原型链上属性是所有实例共享的。</p>
+<h2 id="4-原型-构造联合方式"><a href="#4-原型-构造联合方式" class="headerlink" title="4.原型/构造联合方式"></a>4.原型/构造联合方式</h2><pre><code>//用构造函数定义对象的非函数属性
+function Obj(name){
+    this.name=name;
+    this.arr=new Array('a','b');
+}
+//用原型方式定义对象的方法
+Obj.prototype.say=function(){
+    alert("我是" + this.name);
+}
+//生成对象
+var obj1 = new Obj('xxx');
+</code></pre>
+
+<p>这种是目前用的最多的创建类和对象的方式，将方法和属性根据自己需要用不同的方式封装。</p>
+<h2 id="5-动态原型方式"><a href="#5-动态原型方式" class="headerlink" title="5.动态原型方式"></a>5.动态原型方式</h2><pre><code>//动态原型方式和原型/构造混合方式的原理相似，唯一的区别就是赋予对象方法的位置
+function Person(name, sex) {
+    this.name = name;
+    this.sex = sex;
+    if (typeof this.say != "function") {
+        Person.prototype.say = function () {
+            alert(this.name);
+        }
+    }
+}
+var man =new Person ("凯撒", "男");
+man.say();//凯撒
+</code></pre>
+
+<p>动态原型模式是将所有的信息都封装到构造函数中，构造函数中，只用say不存在的情况下，才会将它添加到原型中。这段代码只有在初次调用时才会执行。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
