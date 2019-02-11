@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好记性不如烂笔头">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 烂笔头 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/imgs/avatar.png">
+        </div>
+        <div class="name">
+            <i>毛晨辉</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#类型判断"><span class="toc-text">类型判断</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#作用域"><span class="toc-text">作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个老生常谈的代码："><span class="toc-text">一个老生常谈的代码：</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#引用传递"><span class="toc-text">引用传递</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编写一个-json-对象的拷贝函数："><span class="toc-text">编写一个 json 对象的拷贝函数：</span></a></li></ol></li>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 烂笔头 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-01-30 06:37:55</span></span>
+        
+        
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h1 id="类型判断"><a href="#类型判断" class="headerlink" title="类型判断"></a>类型判断</h1><blockquote>
+<p>ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。它是 JavaScript 语言的第七种数据类型，前六种是：undefined、null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。<br><em><font size="1">阮一峰《ECMAScript 6 入门》<a href="http://es6.ruanyifeng.com/#docs/symbol" target="_blank" rel="noopener">symbol</a></font></em></p>
+</blockquote>
+<p>特别的 null == undefined 总是返回true. </p>
+<blockquote>
+<p>尽管null 和undefined 有这样的关系，但它们的用途完全不同。如前所述，无论在什么情况下都没有必要把一个变量的值显式地设置为undefined，可是同样的规则对null 却不适用。换句话说，只要意在保存对象的变量还没有真正保存对象，就应该明确地让该变量保存null 值。这样做不仅可以体现null 作为空对象指针的惯例，而且也有助于进一步区分null 和undefined。<br><em><font size="1">《JavaScript高级程序设计(第3版)》p-26</font></em></p>
+</blockquote>
+<p>也就是说null主要作用于对象，undefined主要用于基本类型。</p>
+<h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><p>JS中作用域有：全局作用域、函数作用域。没有块作用域的概念。ES6中新增了块级作用域,与此同时到来的let和const,就是只能块作用域里访问。之前的var自然没有块作用域的概念。</p>
+<h3 id="一个老生常谈的代码："><a href="#一个老生常谈的代码：" class="headerlink" title="一个老生常谈的代码："></a>一个老生常谈的代码：</h3><ul>
+<li>下面代码中，由于闭包只能取得包含函数中的任何变量的最后一个值，所以控制台输出5，而不是0<pre><code>var a = [];
+for(var i = 0; i < 5; i++){
+  a[i] = function(){
+      return i;
+  }
+}
+console.log(a[0]());//5
+</code></pre></li>
+<li>当然，可以通过函数传参（<font color="#dddd00">注意这里函数按值传参，所以创造了副本保存在内存中</font>），来保存每次循环的值<pre><code>var a = [];
+for(var i = 0; i < 5; i++){
+  a[i] = (function(j){//按值传递，创建副本
+      return function(){
+          return j;
+      }
+  })(i);
+}
+console.log(a[0]());//0
+</code></pre></li>
+<li>let则更简洁，由于let循环有一个重新赋值的过程，相当于保存了每一次循环时的值<pre><code>var a = [];
+for(let i = 0; i < 5; i++){
+  a[i] = function(){
+      return i;
+  }
+}
+console.log(a[0]());//0
+</code></pre>
+
+</li>
+</ul>
+<p>此外var命令会发生”变量提升“现象,let不存在“变量提升”。let不允许在相同作用域内，重复声明同一个变量。const,除了有块级作用于的限制，不存在变量提升，还有声明的变量不得改变值，一旦声明变量，就必须立即初始化，否则报错。</p>
+<blockquote>
+<p>const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指针，const只能保证这个指针是固定的，至于它指向的数据结构是不是可变的，就完全不能控制了。因此，将一个对象声明为常量必须非常小心。<br><em><font size="1">阮一峰《ECMAScript 6 入门》<a href="http://es6.ruanyifeng.com/#docs/let" target="_blank" rel="noopener">let</a></font></em></p>
+</blockquote>
+<h1 id="引用传递"><a href="#引用传递" class="headerlink" title="引用传递"></a>引用传递</h1><p>一般来讲，基础类型是值传递，JavaScript 不允许直接访问内存中的位置，<br>也就是说不能直接操作对象的内存空间。在操作对象时，实际上是在操作对象的引用而不是实的对象。为此，引用类型的值是按引用访问的。</p>
+<p>容易疑惑的一点是，函数的参数的传递，<strong>ECMAScript 中所有函数的参数都是按值传递的</strong>。<br>比如<a href="https://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language#" target="_blank" rel="noopener">Is JavaScript a pass-by-reference or pass-by-value language?.</a></p>
+<p>值得注意的一点： [1] == [1]返回的是false。因为数组属于引用类型，引用类型的比较，比较的是地址，左右虽然指向同一个数组对象（typeof [1] //“Object” ），但是在栈内存的地址是不一样的，所以不等，返回false。</p>
+<h3 id="编写一个-json-对象的拷贝函数："><a href="#编写一个-json-对象的拷贝函数：" class="headerlink" title="编写一个 json 对象的拷贝函数："></a>编写一个 json 对象的拷贝函数：</h3><p>JSON对象是ES5中引入的新的类型（支持的浏览器为IE8+），JSON对象parse方法可以将JSON字符串反序列化成JS对象，stringify方法可以将JS对象序列化成JSON字符串，借助这两个方法，也可以实现对象的深复制。</p>
+<pre><code>var source = {
+    name:"source",
+    child:{
+        name:"child"
+    }
+}
+var target = JSON.parse(JSON.stringify(source));
+//改变target的name属性
+target.name = "target";
+console.log(source.name);   //source
+console.log(target.name);   //target
+//改变target的child
+target.child.name = "target child";
+console.log(source.child.name);  //child
+console.log(target.child.name);  //target child
+</code></pre>
+代码的输出可以看出，复制后的target与source是完全隔离的，二者不会相互影响。
+
+这个方法使用较为简单，可以满足基本的深复制需求，而且能够处理JSON格式能表示的所有数据类型，但是对于正则表达式类型、函数类型等无法进行深复制(而且会直接丢失相应的值)，同时如果对象中存在循环引用的情况也无法正确处理
+
+通过递归实现一个copy，可以传入deep参数表示是否执行深复制：
+
+<pre><code>//util作为判断变量具体类型的辅助模块
+   var util = (function(){
+       var class2type = {};
+       ["Null","Undefined","Number","Boolean","String","Object","Function","Array","RegExp","Date"].forEach(function(item){
+           class2type["[object "+ item + "]"] = item.toLowerCase();
+       })
+
+       function isType(obj, type){
+           return getType(obj) === type;
+       }
+       function getType(obj){
+           return class2type[Object.prototype.toString.call(obj)] || "object";
+       }
+       return {
+           isType:isType,
+           getType:getType
+       }
+   })();
+
+   function copy(obj,deep){
+        //如果obj不是对象，那么直接返回值就可以了
+       if(obj === null || typeof obj !== "object"){
+           return obj;
+       }
+　　　　//定义需要的局部变脸，根据obj的类型来调整target的类型
+       var i, target = util.isType(obj,"array") ? [] : {},value,valueType;
+       for(i in obj){
+           value = obj[i];
+           valueType = util.getType(value);
+　　　　　　　//只有在明确执行深复制，并且当前的value是数组或对象的情况下才执行递归复制
+           if(deep && (valueType === "array" || valueType === "object")){
+               target[i] = copy(value);
+           }else{
+               target[i] = value;
+           }
+       }
+       return target;
+   }
+</code></pre>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
